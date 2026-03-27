@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose:*)",
+      "Bash(docker build:*)",
+      "Bash(curl -s http://localhost:8082/api/v1/blockchain/documents/44b1c599-de61-4de4-be31-40d472a5a162 -H 'X-User-Id: c911130e-0827-4fc5-aa2a-51f3e56a70c1')",
+      "Bash(python3 -m json.tool)"
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+/**
+ * Design System - CSS Variables
+ * Bổ sung semantic color tokens cho light/dark theme
+ * Sử dụng: var(--app-color-name)
+ */
+
+/* ============================================
+   BASE LAYER - CSS Variables
+   ============================================ */
+
+:root {
+  /* Brand Colors */
+  --app-brand-primary: var(--mantine-color-primary-5);
+  --app-brand-primary-light: var(--mantine-color-primary-1);
+  --app-brand-primary-dark: var(--mantine-color-primary-7);
+
+  /* Semantic Colors */
+  --app-color-success: var(--mantine-color-success-5);
+  --app-color-warning: var(--mantine-color-warning-5);
+  --app-color-danger: var(--mantine-color-danger-5);
+  --app-color-info: var(--mantine-color-info-5);
+  --app-color-accent: var(--mantine-color-accent-5);
+
+  /* Text Colors */
+  --app-text-primary: var(--mantine-color-secondary-9);
+  --app-text-secondary: var(--mantine-color-secondary-6);
+  --app-text-muted: var(--mantine-color-secondary-5);
+  --app-text-disabled: var(--mantine-color-secondary-4);
+  --app-text-inverse: #ffffff;
+
+  /* Background Colors */
+  --app-bg-page: var(--mantine-color-surface-1);
+  --app-bg-card: var(--mantine-color-surface-0);
+  --app-bg-elevated: var(--mantine-color-surface-0);
+  --app-bg-hover: var(--mantine-color-surface-3);
+  --app-bg-active: var(--mantine-color-surface-2);
+
+  /* Border Colors */
+  --app-border-default: var(--mantine-color-secondary-2);
+  --app-border-strong: var(--mantine-color-secondary-3);
+  --app-border-muted: var(--mantine-color-secondary-1);
+
+  /* Overlay & Backdrop */
+  --app-overlay-light: rgba(0, 0, 0, 0.05);
+  --app-overlay-medium: rgba(0, 0, 0, 0.1);
+  --app-overlay-dark: rgba(0, 0, 0, 0.5);
+  --app-backdrop: rgba(0, 0, 0, 0.6);
+
+  /* Shadows - Light Theme */
+  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --app-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --app-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --app-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* Focus Ring */
+  --app-focus-ring: 0 0 0 2px var(--app-brand-primary);
+
+  /* Transitions */
+  --app-transition-fast: 150ms ease;
+  --app-transition-normal: 250ms ease;
+  --app-transition-slow: 350ms ease;
+}
+
+/* ============================================
+   DARK THEME OVERRIDES
+   ============================================ */
+
+[data-mantine-color-scheme='dark'] {
+  /* Brand Colors - lighter in dark mode for contrast */
+  --app-brand-primary: var(--mantine-color-primary-4);
+  --app-brand-primary-light: var(--mantine-color-primary-8);
+  --app-brand-primary-dark: var(--mantine-color-primary-3);
+
+  /* Semantic Colors - adjusted for dark mode */
+  --app-color-success: var(--mantine-color-success-4);
+  --app-color-warning: var(--mantine-color-warning-4);
+  --app-color-danger: var(--mantine-color-danger-4);
+  --app-color-info: var(--mantine-color-info-4);
+  --app-color-accent: var(--mantine-color-accent-4);
+
+  /* Text Colors - inverted */
+  --app-text-primary: var(--mantine-color-secondary-0);
+  --app-text-secondary: var(--mantine-color-secondary-3);
+  --app-text-muted: var(--mantine-color-secondary-4);
+  --app-text-disabled: var(--mantine-color-secondary-5);
+  --app-text-inverse: var(--mantine-color-secondary-9);
+
+  /* Background Colors - dark */
+  --app-bg-page: var(--mantine-color-surface-6);
+  --app-bg-card: var(--mantine-color-surface-5);
+  --app-bg-elevated: var(--mantine-color-surface-7);
+  --app-bg-hover: var(--mantine-color-surface-7);
+  --app-bg-active: var(--mantine-color-surface-8);
+
+  /* Border Colors - dark */
+  --app-border-default: var(--mantine-color-secondary-7);
+  --app-border-strong: var(--mantine-color-secondary-6);
+  --app-border-muted: var(--mantine-color-secondary-8);
+
+  /* Overlay & Backdrop - lighter overlay in dark mode */
+  --app-overlay-light: rgba(255, 255, 255, 0.03);
+  --app-overlay-medium: rgba(255, 255, 255, 0.06);
+  --app-overlay-dark: rgba(0, 0, 0, 0.6);
+  --app-backdrop: rgba(0, 0, 0, 0.8);
+
+  /* Shadows - softer in dark mode */
+  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --app-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --app-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --app-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Status backgrounds */
+.bg-success-subtle {
+  background-color: var(--mantine-color-success-0);
+}
+.bg-warning-subtle {
+  background-color: var(--mantine-color-warning-0);
+}
+.bg-danger-subtle {
+  background-color: var(--mantine-color-danger-0);
+}
+.bg-info-subtle {
+  background-color: var(--mantine-color-info-0);
+}
+
+[data-mantine-color-scheme='dark'] {
+  .bg-success-subtle {
+    background-color: var(--mantine-color-success-9);
+  }
+  .bg-warning-subtle {
+    background-color: var(--mantine-color-warning-9);
+  }
+  .bg-danger-subtle {
+    background-color: var(--mantine-color-danger-9);
+  }
+  .bg-info-subtle {
+    background-color: var(--mantine-color-info-9);
+  }
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-primary-5) 0%,
+    var(--mantine-color-primary-7) 100%
+  );
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-accent-5) 0%,
+    var(--mantine-color-primary-5) 100%
+  );
+}
+
+/* Focus visible styles */
+:focus-visible {
+  outline: 2px solid var(--app-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth color transitions for theme switching */
+* {
+  transition: background-color var(--app-transition-normal),
+              border-color var(--app-transition-normal),
+              color var(--app-transition-fast);
+}
+
+/* Disable transitions on color scheme change (prevent flash) */
+[data-mantine-color-scheme] * {
+  transition: none !important;
+}
+[data-mantine-color-scheme]:not([data-loading]) * {
+  transition: background-color var(--app-transition-normal),
+              border-color var(--app-transition-normal),
+              color var(--app-transition-fast);
+}

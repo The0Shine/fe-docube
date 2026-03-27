@@ -1,0 +1,75 @@
+2026/03/13 21:22:18.120670 ========================================
+2026/03/13 21:22:18.121181 🚀 Docube Blockchain Service Starting...
+2026/03/13 21:22:18.121525 ========================================
+2026/03/13 21:22:18.132912 📋 Configuration loaded:
+2026/03/13 21:22:18.133275    App Name: fabric-gateway-service
+2026/03/13 21:22:18.133660    App Port: 8081
+2026/03/13 21:22:18.134067    Environment: dev
+2026/03/13 21:22:18.134395    Eureka Server: http://172.31.16.1:9000/eureka
+2026/03/13 21:22:18.134741    Fabric Channel: docubechannel
+2026/03/13 21:22:18.135015    Fabric Chaincode: document_nft_cc
+2026/03/13 21:22:18.135333    Kafka Brokers: [172.31.16.1:7092]
+2026/03/13 21:22:18.135621    Redis: 172.31.16.1:6379 (db=1, ttl=900s)
+2026/03/13 21:22:18.135908 🔗 Connecting to Fabric network...
+2026/03/13 21:22:18.136196 [FABRIC] Connecting to peer: localhost:7051
+2026/03/13 21:22:18.136468 [FABRIC] MSP: AdminOrgMSP, Channel: docubechannel, Chaincode: document_nft_cc
+2026/03/13 21:22:18.163656 [FABRIC] ✅ Successfully connected to Fabric network
+2026/03/13 21:22:18.163980 🔴 Connecting to Redis...
+2026/03/13 21:22:18.177079 [REDIS] Connected to 172.31.16.1:6379 (db=1, ttl=15m0s)
+2026/03/13 21:22:18.178271 📡 Registering with Eureka server...
+2026/03/13 21:22:18.183415 ⚠️ Registration attempt 1 failed: failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s
+2026/03/13 21:22:23.186288 ⚠️ Registration attempt 2 failed: failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s
+2026/03/13 21:22:28.189938 ⚠️ Registration attempt 3 failed: failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s
+2026/03/13 21:22:33.193627 ⚠️ Could not register with Eureka (service will run standalone): failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused
+2026/03/13 21:22:33.194235 📨 Kafka consumer started
+2026/03/13 21:22:33.194721    Topics: docube.document.create | docube.document.update | docube.access.grant | docube.access.revoke
+2026/03/13 21:22:33.197764 ========================================
+2026/03/13 21:22:33.198667 ✅ Service is running and ready!
+2026/03/13 21:22:33.199082    HTTP API: http://localhost:8081/api/v1/blockchain
+2026/03/13 21:22:33.199513    Kafka Consumer: listening on 4 topics
+2026/03/13 21:22:33.199861    Redis Cache: access control caching enabled
+2026/03/13 21:22:33.196005 [KAFKA] 🚀 Starting Kafka consumers...
+2026/03/13 21:22:33.196106 🌐 HTTP server listening on port 8081
+2026/03/13 21:22:33.197951 [EUREKA] 💓 Starting heartbeat every 30s
+2026/03/13 21:22:33.200258    Press Ctrl+C to shutdown gracefully
+2026/03/13 21:22:33.201702 ========================================
+2026/03/13 21:22:33.508207 [KAFKA] ⚠️  Cannot get controller for topic docube.document.create: EOF
+2026/03/13 21:22:33.813260 [KAFKA] ⚠️  Cannot get controller for topic docube.document.update: EOF
+2026/03/13 21:22:34.119779 [KAFKA] ⚠️  Cannot get controller for topic docube.access.grant: EOF
+2026/03/13 21:22:34.432581 [KAFKA] ⚠️  Cannot get controller for topic docube.access.revoke: EOF
+2026/03/13 21:22:34.434377 [KAFKA] SASL/PLAIN enabled for user: horob1
+2026/03/13 21:22:34.434574 [KAFKA] SASL/PLAIN enabled for user: horob1
+2026/03/13 21:22:34.437618 [KAFKA] 📥 Listening on topic: docube.access.revoke (group: blockchain-service-group)
+2026/03/13 21:22:34.437682 [KAFKA] 📥 Listening on topic: docube.document.update (group: blockchain-service-group)
+2026/03/13 21:22:34.434618 [KAFKA] SASL/PLAIN enabled for user: horob1
+2026/03/13 21:22:34.440837 [KAFKA] 📥 Listening on topic: docube.access.grant (group: blockchain-service-group)
+2026/03/13 21:22:34.434594 [KAFKA] SASL/PLAIN enabled for user: horob1
+2026/03/13 21:22:34.441532 [KAFKA] 📥 Listening on topic: docube.document.create (group: blockchain-service-group)
+2026/03/13 21:22:47.992137 [HANDLER] GET /documents/doc-test-001 by user=user-alice-uuid-001
+2026/03/13 21:22:47.992604 [SERVICE] GetDocumentWithAccessCheck: user=user-alice-uuid-001, doc=doc-test-001
+2026/03/13 21:22:48.038989 [SERVICE] Access granted (OWNER) for user=user-alice-uuid-001 on doc=doc-test-001
+2026/03/13 21:23:00.951179 [EUREKA] ⚠️ Heartbeat failed: Put "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE/helo:fabric-gateway-service:8081": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s
+2026/03/13 21:23:01.866814 [HANDLER] GET /documents/doc-test-001 by user=user-alice-uuid-001
+2026/03/13 21:23:01.867167 [SERVICE] GetDocumentWithAccessCheck: user=user-alice-uuid-001, doc=doc-test-001
+2026/03/13 21:23:01.871825 [SERVICE] Access granted (OWNER) for user=user-alice-uuid-001 on doc=doc-test-001
+2026/03/13 21:23:01.953533 [HANDLER] GET /documents/doc-test-001 by user=user-bob-999
+2026/03/13 21:23:01.953962 [SERVICE] GetDocumentWithAccessCheck: user=user-bob-999, doc=doc-test-001
+2026/03/13 21:23:01.958308 [SERVICE] User user-bob-999 is not owner, checking access permissions...
+2026/03/13 21:23:01.973967 [CACHE] SET access check: doc=doc-test-001 user=user-bob-999 allowed=false
+2026/03/13 21:23:01.974443 [SERVICE] Access denied for user=user-bob-999 on doc=doc-test-001 reason=NOT_GRANTED
+2026/03/13 21:23:02.051335 [HANDLER] GET /documents/nonexistent-doc by user=user-alice-uuid-001
+2026/03/13 21:23:02.051733 [SERVICE] GetDocumentWithAccessCheck: user=user-alice-uuid-001, doc=nonexistent-doc
+2026/03/13 21:23:02.237229 [HANDLER] GET /documents/doc-test-001/history by user=user-alice-uuid-001
+2026/03/13 21:23:02.237664 [SERVICE] GetDocumentHistoryWithAccessCheck: user=user-alice-uuid-001, doc=doc-test-001
+2026/03/13 21:23:02.368151 [HANDLER] GET /documents/doc-test-001/history by user=user-bob-999
+2026/03/13 21:23:02.368610 [SERVICE] GetDocumentHistoryWithAccessCheck: user=user-bob-999, doc=doc-test-001
+2026/03/13 21:23:02.374548 [SERVICE] User user-bob-999 is not owner, checking access permissions for history...
+2026/03/13 21:23:02.376799 [CACHE] HIT access check: doc=doc-test-001 user=user-bob-999 allowed=false
+2026/03/13 21:23:02.505217 [HANDLER] GET /documents/nonexistent-doc/history by user=anyone
+2026/03/13 21:23:02.505506 [SERVICE] GetDocumentHistoryWithAccessCheck: user=anyone, doc=nonexistent-doc
+2026/03/13 21:23:05.953668 [EUREKA] ⚠️ Heartbeat retry failed: Put "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE/helo:fabric-gateway-service:8081": dial tcp 172.31.16.1:9000: connect: connection refused - will try re-registration
+2026/03/13 21:23:05.954699 [EUREKA] ❌ Re-registration failed: failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused
+2026/03/13 21:23:28.678026 [EUREKA] ⚠️ Heartbeat failed: Put "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE/helo:fabric-gateway-service:8081": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s
+2026/03/13 21:23:33.680901 [EUREKA] ⚠️ Heartbeat retry failed: Put "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE/helo:fabric-gateway-service:8081": dial tcp 172.31.16.1:9000: connect: connection refused - will try re-registration
+2026/03/13 21:23:33.682092 [EUREKA] ❌ Re-registration failed: failed to register with Eureka: Post "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE": dial tcp 172.31.16.1:9000: connect: connection refused
+2026/03/13 21:23:56.348799 [EUREKA] ⚠️ Heartbeat failed: Put "http://172.31.16.1:9000/eureka/apps/FABRIC-GATEWAY-SERVICE/helo:fabric-gateway-service:8081": dial tcp 172.31.16.1:9000: connect: connection refused - retrying in 5s

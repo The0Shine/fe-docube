@@ -1,0 +1,57 @@
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.title {
+  color: white;
+  font-weight: 800;
+}
+
+.blobContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.1;
+  overflow: hidden;
+}
+
+.blob1 {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: 200px;
+  height: 200px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.blob2 {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  width: 250px;
+  height: 250px;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.blob3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -10px);
+  }
+}

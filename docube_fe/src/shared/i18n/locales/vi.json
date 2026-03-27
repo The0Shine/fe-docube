@@ -1,0 +1,80 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Có lỗi xảy ra",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "create": "Tạo mới",
+    "search": "Tìm kiếm",
+    "confirm": "Xác nhận",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "yes": "Có",
+    "no": "Không"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "loginSuccess": "Đăng nhập thành công",
+    "loginFailed": "Đăng nhập thất bại",
+    "logoutSuccess": "Đăng xuất thành công",
+    "welcomeBack": "Chào mừng trở lại",
+    "loginDescription": "Vui lòng đăng nhập để tiếp tục"
+  },
+  "home": {
+    "title": "Trang chủ",
+    "welcome": "Chào mừng đến với ứng dụng",
+    "description": "Đây là trang chủ của ứng dụng",
+    "dashboard": "Bảng điều khiển"
+  },
+  "hero": {
+    "title": "Tài liệu học tập cho mọi người",
+    "subtitle": "Tìm kiếm và truy cập nhanh tài liệu chất lượng từ nhiều nguồn.",
+    "search_placeholder": "Tìm tài liệu, môn học, trường..."
+  },
+  "documents": {
+    "title": "Kho tài liệu nổi bật",
+    "subtitle": "Tài liệu được chọn lọc theo trường và theo loại nội dung.",
+    "universities": "Trường đại học",
+    "types": "Loại tài liệu",
+    "see_all": "Xem tất cả"
+  },
+  "theme": {
+    "title": "Giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "switchTheme": "Đổi giao diện",
+    "primaryColor": "Màu chính"
+  },
+  "language": {
+    "title": "Ngôn ngữ",
+    "vietnamese": "Tiếng Việt",
+    "english": "English",
+    "switchLanguage": "Đổi ngôn ngữ"
+  },
+  "notFound": {
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn tìm kiếm không tồn tại",
+    "backHome": "Quay về trang chủ"
+  },
+  "nav": {
+    "university": "Đại học",
+    "high_school": "Trung học",
+    "signin": "Đăng nhập"
+  },
+  "sidebar": {
+    "home": "Trang chủ",
+    "users": "Người dùng",
+    "settings": "Cài đặt",
+    "profile": "Hồ sơ"
+  }
+}

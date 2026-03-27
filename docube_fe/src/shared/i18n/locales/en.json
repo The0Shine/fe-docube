@@ -1,0 +1,68 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember me",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed",
+    "logoutSuccess": "Logout successful",
+    "welcomeBack": "Welcome Back",
+    "loginDescription": "Please login to continue"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the application",
+    "description": "This is the home page of the application",
+    "dashboard": "Dashboard"
+  },
+  "theme": {
+    "title": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "switchTheme": "Switch Theme",
+    "primaryColor": "Primary Color"
+  },
+  "language": {
+    "title": "Language",
+    "vietnamese": "Tiếng Việt",
+    "english": "English",
+    "switchLanguage": "Switch Language"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist",
+    "backHome": "Back to Home"
+  },
+  "nav": {
+    "university": "University",
+    "high_school": "High School",
+    "signin": "Sign In"
+  },
+  "sidebar": {
+    "home": "Home",
+    "users": "Users",
+    "settings": "Settings",
+    "profile": "Profile"
+  }
+}
