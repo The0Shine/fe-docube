@@ -14,6 +14,7 @@ export interface UserSummary {
   phoneNumber: string;
   address: string;
   avatar: string;
+  twoFaEnabled?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

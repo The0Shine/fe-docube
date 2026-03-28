@@ -1,0 +1,86 @@
+/* ── Cover Banner ──────────────────────────────────────────────────────────── */
+.coverBanner {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #dc3545 0%, #a01020 100%);
+  border-radius: var(--mantine-radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.coverBanner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+}
+
+/* ── Avatar wrapper nổi lên trên banner ─────────────────────────────────────── */
+.avatarSection {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--mantine-spacing-md);
+  margin-top: -52px;
+  padding: 0 var(--mantine-spacing-lg);
+}
+
+.avatarWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatarRing {
+  border: 4px solid var(--mantine-color-body);
+  border-radius: 50%;
+  box-shadow: var(--app-shadow-md);
+}
+
+.avatarUploadBtn {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #dc3545;
+  border: 2px solid var(--mantine-color-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--app-transition-fast);
+}
+
+.avatarUploadBtn:hover {
+  background: #a01020;
+}
+
+/* ── Profile name & meta ─────────────────────────────────────────────────── */
+.profileMeta {
+  flex: 1;
+  padding-bottom: 4px;
+  min-width: 0;
+}
+
+.profileName {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--mantine-color-text);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileEmail {
+  font-size: 0.85rem;
+  color: var(--mantine-color-dimmed);
+  margin-top: 2px;
+}
+
+/* ── Dark mode ───────────────────────────────────────────────────────────── */
+[data-mantine-color-scheme="dark"] .avatarRing {
+  border-color: var(--mantine-color-dark-7);
+}

@@ -29,7 +29,7 @@ const mockLoginResponse: LoginResponse = {
 
 const mock2FALoginResponse: LoginResponse = {
   accessToken: 'temp-token-2fa',
-  accessTokenType: '2FA',
+  accessTokenType: 'TWO_FA_VERIFY',
   refreshToken: undefined,
   clientId: 'client-id-789',
   userId: 'user-id-abc',
@@ -72,16 +72,31 @@ describe('useAuthStore', () => {
       expect(state.refreshToken).toBeNull();
     });
 
-    it('nên lưu token và đặt isAuthenticated=true cho FORGOT_PASSWORD (temp bearer token)', () => {
-      // Temp token dùng để gọi /auth/reset-password — cần isAuthenticated=true
-      const forgotResp: LoginResponse = {
-        accessToken: 'forgot-token',
-        accessTokenType: 'FORGOT_PASSWORD',
+    it('nên đặt isAuthenticated=false khi EMAIL_VERIFY flow', () => {
+      const emailVerifyResp: LoginResponse = {
+        accessToken: 'email-verify-token',
+        accessTokenType: 'EMAIL_VERIFY',
+        refreshToken: undefined,
+        clientId: 'client-id-789',
+        userId: 'user-id-abc',
       };
-      useAuthStore.getState().setLoginResponse(forgotResp);
+      useAuthStore.getState().setLoginResponse(emailVerifyResp);
 
-      expect(useAuthStore.getState().accessToken).toBe('forgot-token');
-      expect(useAuthStore.getState().isAuthenticated).toBe(true); // temp bearer
+      const state = useAuthStore.getState();
+      expect(state.accessToken).toBe('email-verify-token');
+      expect(state.isAuthenticated).toBe(false);
+      expect(state.is2FARequired).toBe(false);
+    });
+
+    it('nên lưu token và đặt isAuthenticated=true cho token type không phải 2FA/EMAIL_VERIFY', () => {
+      const otherResp: LoginResponse = {
+        accessToken: 'other-token',
+        accessTokenType: 'Bearer',
+      };
+      useAuthStore.getState().setLoginResponse(otherResp);
+
+      expect(useAuthStore.getState().accessToken).toBe('other-token');
+      expect(useAuthStore.getState().isAuthenticated).toBe(true);
       expect(useAuthStore.getState().is2FARequired).toBe(false);
     });
   });

@@ -40,7 +40,7 @@ export function LoginModal({ opened, onClose }: LoginModalProps) {
   const [view, setView] = useState<ModalView>('OPTIONS');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const { setLoginResponse, setUser } = useAuthStore();
+  const { setLoginResponse, setUser, clearAuth } = useAuthStore();
 
   const handleClose = () => {
     onClose();
@@ -217,6 +217,14 @@ export function LoginModal({ opened, onClose }: LoginModalProps) {
                 setLoading(false);
               }
             }}
+            onResend={async () => {
+              try {
+                await authApi.sendVerificationPassword();
+                notifications.show({ message: 'Đã gửi lại OTP đặt lại mật khẩu.', color: 'blue' });
+              } catch {
+                notifications.show({ message: 'Không thể gửi lại OTP.', color: 'red' });
+              }
+            }}
           />
         )}
 
@@ -229,8 +237,13 @@ export function LoginModal({ opened, onClose }: LoginModalProps) {
               setErrorMsg('');
               try {
                 await authApi.verifyEmail(otp);
-                notifications.show({ title: 'Xác thực thành công', message: 'Email đã được xác thực.', color: 'green' });
-                handleClose();
+                clearAuth();
+                setView('EMAIL_LOGIN');
+                notifications.show({
+                  title: 'Xác thực email thành công!',
+                  message: 'Vui lòng đăng nhập để tiếp tục.',
+                  color: 'green',
+                });
               } catch (e: unknown) {
                 setErrorMsg(extractErrorMessage(e, 'OTP không đúng.'));
               } finally {
@@ -254,8 +267,8 @@ export function LoginModal({ opened, onClose }: LoginModalProps) {
 
 // ─────────────── Helper ───────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractErrorMessage(e: unknown, fallback: string): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const err = e as any;
   return (
     err?.response?.data?.message ||
@@ -486,6 +499,12 @@ interface TwoFAFormProps {
 
 function TwoFAForm({ loading, errorMsg, onBack, onSubmit }: TwoFAFormProps) {
   const [otp, setOtp] = useState('');
+
+  const handleSubmit = (val: string) => {
+    if (loading || val.length !== 6) return;
+    onSubmit(val).catch(() => setOtp(''));
+  };
+
   return (
     <Stack px="md" pt="xs" pb="md">
       <FormHeader title="Xác thực 2 lớp" onBack={onBack} />
@@ -499,8 +518,9 @@ function TwoFAForm({ loading, errorMsg, onBack, onSubmit }: TwoFAFormProps) {
           type="number"
           size="lg"
           value={otp}
-          onChange={setOtp}
-          onComplete={(val) => onSubmit(val)}
+          onChange={(val) => setOtp(val.replace(/[^\d]/g, ''))}
+          onComplete={(val) => handleSubmit(val)}
+          disabled={loading}
         />
       </Center>
       {loading && <Center mt="sm"><Loader size="sm" /></Center>}
@@ -511,7 +531,7 @@ function TwoFAForm({ loading, errorMsg, onBack, onSubmit }: TwoFAFormProps) {
         radius="xl"
         loading={loading}
         disabled={otp.length !== 6}
-        onClick={() => onSubmit(otp)}
+        onClick={() => handleSubmit(otp)}
       >
         Xác thực
       </Button>
@@ -568,9 +588,10 @@ interface ResetPasswordFormProps {
   errorMsg: string;
   onBack: () => void;
   onSubmit: (otp: string, newPassword: string) => Promise<void>;
+  onResend: () => Promise<void>;
 }
 
-function ResetPasswordForm({ loading, errorMsg, onBack, onSubmit }: ResetPasswordFormProps) {
+function ResetPasswordForm({ loading, errorMsg, onBack, onSubmit, onResend }: ResetPasswordFormProps) {
   const form = useForm({
     initialValues: { otp: '', newPassword: '', confirmPassword: '' },
     validate: {
@@ -596,6 +617,10 @@ function ResetPasswordForm({ loading, errorMsg, onBack, onSubmit }: ResetPasswor
           <Button type="submit" fullWidth mt="sm" size="lg" radius="xl" loading={loading}>
             Đặt lại mật khẩu
           </Button>
+          <Text ta="center" size="sm" c="dimmed">
+            Không nhận được OTP?{' '}
+            <Text span c="blue" style={{ cursor: 'pointer' }} onClick={onResend}>Gửi lại</Text>
+          </Text>
         </Stack>
       </form>
     </Stack>
@@ -613,6 +638,12 @@ interface EmailVerifyFormProps {
 
 function EmailVerifyForm({ loading, errorMsg, onSubmit, onResend }: EmailVerifyFormProps) {
   const [otp, setOtp] = useState('');
+
+  const handleSubmit = (val: string) => {
+    if (loading || val.length !== 6) return;
+    onSubmit(val).catch(() => setOtp(''));
+  };
+
   return (
     <Stack px="md" pt="xs" pb="md">
       <Box mb="md">
@@ -621,11 +652,27 @@ function EmailVerifyForm({ loading, errorMsg, onSubmit, onResend }: EmailVerifyF
       </Box>
       <ErrorAlert msg={errorMsg} />
       <Center>
-        <PinInput length={6} type="number" size="lg" value={otp} onChange={setOtp} onComplete={(v) => onSubmit(v)} />
+        <PinInput
+          length={6}
+          type="number"
+          size="lg"
+          value={otp}
+          onChange={(val) => setOtp(val.replace(/[^\d]/g, ''))}
+          onComplete={(val) => handleSubmit(val)}
+          disabled={loading}
+        />
       </Center>
       {loading && <Center mt="sm"><Loader size="sm" /></Center>}
-      <Button fullWidth mt="md" size="lg" radius="xl" loading={loading} disabled={otp.length !== 6} onClick={() => onSubmit(otp)}
-        leftSection={<IconCheck size={16} />}>
+      <Button
+        fullWidth
+        mt="md"
+        size="lg"
+        radius="xl"
+        loading={loading}
+        disabled={otp.length !== 6}
+        onClick={() => handleSubmit(otp)}
+        leftSection={<IconCheck size={16} />}
+      >
         Xác thực
       </Button>
       <Text ta="center" size="sm" c="dimmed">

@@ -4,7 +4,7 @@
  */
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/stores';
-import { profileApi } from '@/shared/services';
+import { profileApi, authApi } from '@/shared/services';
 import { Center, Loader } from '@mantine/core';
 
 interface AuthGuardProps {
@@ -12,27 +12,31 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { 
-    isAuthenticated, 
-    accessToken, 
-    setUser, 
-    user, 
-    setLoginModalOpen 
+  const {
+    isAuthenticated,
+    accessToken,
+    setUser,
+    setRoles,
+    user,
+    setLoginModalOpen
   } = useAuthStore();
-  const [validating, setValidating] = useState(false);
+  // Khởi tạo đúng ngay từ đầu — tránh setState đồng bộ trong effect
+  const needsFetch = Boolean(accessToken && isAuthenticated && !user);
+  const [validating, setValidating] = useState(needsFetch);
 
   // Nếu có token nhưng chưa có user profile → fetch profile
   useEffect(() => {
-    if (accessToken && isAuthenticated && !user) {
-      setValidating(true);
-      profileApi.getProfile()
-        .then((profile) => setUser(profile))
-        .catch(() => {
-          // Token không hợp lệ — store sẽ bị clear bởi axios interceptor
-        })
-        .finally(() => setValidating(false));
-    }
-  }, [accessToken, isAuthenticated, user, setUser]);
+    if (!needsFetch) return;
+    Promise.all([profileApi.getProfile(), authApi.getMyRoles()])
+      .then(([profile, roles]) => {
+        setUser(profile);
+        setRoles(roles);
+      })
+      .catch(() => {
+        // Token không hợp lệ — store sẽ bị clear bởi axios interceptor
+      })
+      .finally(() => setValidating(false));
+  }, [needsFetch, setUser, setRoles]);
 
   // Tự động mở modal nếu truy cập trang private mà chưa login
   useEffect(() => {

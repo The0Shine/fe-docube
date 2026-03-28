@@ -10,6 +10,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: false,
+    env: { NODE_ENV: 'test' },
   },
   resolve: {
     alias: {

@@ -8,35 +8,21 @@ import { AuthGuard } from "./AuthGuard";
 
 // Pages
 import { NotFoundPage } from "@/features/errors";
-import { SettingsPage } from "@/features/settings";
+import { ProfilePage } from "@/features/profile";
 import { HomePage } from "@/features/home";
 import { TestPage } from "@/features/test";
 import { UniversityPage } from "@/features/university/UniversityPage";
 import { SchoolDetailPage } from "@/features/school-detail/SchoolDetailPage";
 
-/**
- * Routes configuration
- * - Public routes: Login, Register, ...
- * - Private routes: Home, Users, Settings, ... (wrapped với AuthGuard)
- */
 export const router = createBrowserRouter([
   // Public routes
   {
     path: "/",
     element: <AppLayout />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: "university",
-        element: <UniversityPage />,
-      },
-      {
-        path: "university/:slug",
-        element: <SchoolDetailPage />,
-      },
+      { index: true, element: <HomePage /> },
+      { path: "university", element: <UniversityPage /> },
+      { path: "university/:slug", element: <SchoolDetailPage /> },
     ],
   },
 
@@ -49,30 +35,12 @@ export const router = createBrowserRouter([
       </AuthGuard>
     ),
     children: [
-      {
-        path: "settings",
-        element: <SettingsPage />,
-      },
-      {
-        path: "users",
-        element: <HomePage />, // Tạm dùng HomePage
-      },
-      {
-        path: "test",
-        element: <TestPage />,
-      },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "users", element: <HomePage /> },
+      { path: "test", element: <TestPage /> },
     ],
   },
 
-  // 404 Not Found
-  {
-    path: "/404",
-    element: <NotFoundPage />,
-  },
-
-  // Redirect tất cả các routes không tồn tại về 404
-  {
-    path: "*",
-    element: <Navigate to="/404" replace />,
-  },
+  { path: "/404", element: <NotFoundPage /> },
+  { path: "*", element: <Navigate to="/404" replace /> },
 ]);

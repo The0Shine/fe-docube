@@ -10,11 +10,17 @@ import {
   Stack,
   Drawer,
   Flex,
+  Avatar,
+  Menu,
+  Divider,
+  UnstyledButton,
 } from "@mantine/core";
+import { IconLogout, IconChevronDown, IconUser } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import classes from "./Header.module.css";
 import { LanguageSwitcher } from "@/shared/ui/LanguageSwitcher";
 import { useAuthStore } from "@/stores";
+import { authApi } from "@/shared/services";
 
 interface HeaderProps {
   onBurgerClick?: () => void;
@@ -25,78 +31,83 @@ interface HeaderProps {
 export function Header({ onBurgerClick, burgerOpened, hideDrawer }: HeaderProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setLoginModalOpen } = useAuthStore();
+  const { setLoginModalOpen, isAuthenticated, user, logout, clientId } = useAuthStore();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleBurgerClick = () => {
-    if (onBurgerClick) {
-      onBurgerClick();
-    }
-
-    if (!hideDrawer) {
-      setIsDrawerOpen((prev) => !prev);
-    }
+    if (onBurgerClick) onBurgerClick();
+    if (!hideDrawer) setIsDrawerOpen((prev) => !prev);
   };
 
   const isBurgerOpened = burgerOpened ?? isDrawerOpen;
 
   const openLoginModal = () => {
     setLoginModalOpen(true);
-    setIsDrawerOpen(false); // Close drawer if open
+    setIsDrawerOpen(false);
   };
+
+  const handleLogout = async () => {
+    setIsDrawerOpen(false);
+    try {
+      if (clientId) await authApi.logout([clientId]);
+    } catch { /* ignore */ }
+    logout();
+    navigate("/");
+  };
+
+  const avatarLabel = user ? `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase() : "U";
+  const displayName = user ? `${user.lastName ?? ""} ${user.firstName ?? ""}`.trim() : "";
 
   return (
     <>
-      <Box
-        className={classes.header}
-        h={64}
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 200,
-        }}
-      >
+      <Box className={classes.header} h={64} style={{ position: "sticky", top: 0, zIndex: 200 }}>
         <Container size="xl" h="100%">
           <Flex h="100%" align="center" justify="space-between">
+
+            {/* Left: Logo + Nav */}
             <Group gap="xl">
-                {/* Logo */}
-                <div className={classes.logo} onClick={() => navigate("/")}>
+              <div className={classes.logo} onClick={() => navigate("/")}>
                 <div className={classes.logoIcon}>D</div>
                 <Text className={classes.logoText}>Docube</Text>
-                </div>
+              </div>
 
-                {/* Navigation Links */}
-                <Group gap="md" visibleFrom="sm">
+              <Group gap="md" visibleFrom="sm">
                 <Text className={classes.navLink} onClick={() => navigate("/university")}>
-                    {t("nav.university")}
+                  {t("nav.university")}
                 </Text>
-                <Text className={classes.navLink}>
-                    Tài liệu
-                </Text>
-                </Group>
+                <Text className={classes.navLink}>Tài liệu</Text>
+              </Group>
             </Group>
 
+            {/* Right: Auth + Language */}
             <Group>
-                {/* Sign In Button */}
-                <Group gap="sm" visibleFrom="sm">
-                <Button
-                    className={classes.signInButton}
-                    size="sm"
-                    onClick={openLoginModal}
-                >
+              <Group gap="sm" visibleFrom="sm">
+                {isAuthenticated ? (
+                  <UserMenu
+                    avatarLabel={avatarLabel}
+                    avatarSrc={user?.avatar}
+                    displayName={displayName}
+                    email={user?.email ?? ""}
+                    onProfile={() => navigate("/private/profile")}
+                    onLogout={handleLogout}
+                  />
+                ) : (
+                  <Button className={classes.signInButton} size="sm" onClick={openLoginModal}>
                     {t("nav.signin")}
-                </Button>
+                  </Button>
+                )}
                 <LanguageSwitcher />
-                </Group>
+              </Group>
 
-                {/* Mobile Burger */}
-                <Burger
+              {/* Mobile Burger */}
+              <Burger
                 opened={isBurgerOpened}
                 onClick={handleBurgerClick}
                 hiddenFrom="sm"
                 size="sm"
-                />
+              />
             </Group>
+
           </Flex>
         </Container>
       </Box>
@@ -117,25 +128,137 @@ export function Header({ onBurgerClick, burgerOpened, hideDrawer }: HeaderProps)
           className={classes.drawer}
           overlayProps={{ backgroundOpacity: 0.4, blur: 4 }}
         >
-          <Stack gap="xs" mt="lg">
-            <Text className={classes.drawerNavLink}>
+          <Stack gap="xs" mt="md">
+            {isAuthenticated && user ? (
+              <>
+                {/* User profile section */}
+                <div className={classes.drawerUserCard}>
+                  <Avatar
+                    src={user.avatar}
+                    size={44}
+                    radius="xl"
+                    className={classes.drawerUserAvatar}
+                  >
+                    {avatarLabel}
+                  </Avatar>
+                  <div className={classes.drawerUserInfo}>
+                    <Text className={classes.drawerUserName}>{displayName}</Text>
+                    <Text className={classes.drawerUserEmail}>{user.email}</Text>
+                  </div>
+                </div>
+                <Divider my="xs" />
+              </>
+            ) : null}
+
+            {/* Nav links */}
+            <Text
+              className={classes.drawerNavLink}
+              onClick={() => { navigate("/university"); setIsDrawerOpen(false); }}
+            >
               {t("nav.university")}
             </Text>
-            <Text className={classes.drawerNavLink}>
-              Tài liệu
-            </Text>
-            <Button
-              className={classes.drawerSignInButton}
-              fullWidth
-              onClick={openLoginModal}
-            >
-              {t("nav.signin")}
-            </Button>
+            <Text className={classes.drawerNavLink}>Tài liệu</Text>
+
+            <Divider my="xs" />
+
+            {isAuthenticated ? (
+              <>
+                <Text
+                  className={classes.drawerNavLink}
+                  onClick={() => { navigate("/private/profile"); setIsDrawerOpen(false); }}
+                >
+                  <Group gap="xs">
+                    <IconUser size={16} />
+                    Trang cá nhân
+                  </Group>
+                </Text>
+                <Text className={classes.drawerLogoutLink} onClick={handleLogout}>
+                  <Group gap="xs">
+                    <IconLogout size={16} />
+                    Đăng xuất
+                  </Group>
+                </Text>
+              </>
+            ) : (
+              <Button className={classes.drawerSignInButton} fullWidth onClick={openLoginModal}>
+                {t("nav.signin")}
+              </Button>
+            )}
           </Stack>
         </Drawer>
       )}
-
-      {/* LoginModal đã được quản lý tập trung ở AppLevel hoặc AuthGuard */}
     </>
+  );
+}
+
+// ─── User Menu Dropdown ──────────────────────────────────────────────────────
+
+interface UserMenuProps {
+  avatarLabel: string;
+  avatarSrc?: string;
+  displayName: string;
+  email: string;
+  onProfile: () => void;
+  onLogout: () => void;
+}
+
+function UserMenu({ avatarLabel, avatarSrc, displayName, email, onProfile, onLogout }: UserMenuProps) {
+  return (
+    <Menu
+      width={220}
+      position="bottom-end"
+      offset={8}
+      shadow="lg"
+      radius="md"
+      transitionProps={{ transition: "pop-top-right", duration: 150 }}
+    >
+      <Menu.Target>
+        <UnstyledButton className={classes.userMenuTrigger}>
+          <Group gap={8} wrap="nowrap">
+            <Avatar src={avatarSrc} size={34} radius="xl" className={classes.userAvatar}>
+              {avatarLabel}
+            </Avatar>
+            <Text className={classes.userDisplayName} visibleFrom="md">
+              {displayName || email}
+            </Text>
+            <IconChevronDown size={14} className={classes.userMenuChevron} />
+          </Group>
+        </UnstyledButton>
+      </Menu.Target>
+
+      <Menu.Dropdown className={classes.userMenuDropdown}>
+        {/* Header info */}
+        <div className={classes.menuUserInfo}>
+          <Avatar src={avatarSrc} size={40} radius="xl" className={classes.menuUserAvatar}>
+            {avatarLabel}
+          </Avatar>
+          <div>
+            <Text className={classes.menuUserName}>{displayName}</Text>
+            <Text className={classes.menuUserEmail}>{email}</Text>
+          </div>
+        </div>
+
+        <Menu.Divider />
+
+        <Menu.Item
+          leftSection={<IconUser size={15} />}
+          onClick={onProfile}
+          className={classes.menuItem}
+        >
+          Trang cá nhân
+        </Menu.Item>
+
+        <Menu.Divider />
+
+        <Menu.Item
+          leftSection={<IconLogout size={15} />}
+          onClick={onLogout}
+          className={classes.menuItemLogout}
+          color="red"
+        >
+          Đăng xuất
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 }

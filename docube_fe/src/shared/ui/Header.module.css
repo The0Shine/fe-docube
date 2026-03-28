@@ -203,3 +203,227 @@
   );
   box-shadow: 0 4px 14px 0 rgba(var(--mantine-color-primary-5-rgb), 0.35);
 }
+
+/* ─── User Menu (Desktop) ─────────────────────────────── */
+
+.userMenuTrigger {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px 5px 5px;
+  border-radius: 50px;
+  border: 1.5px solid var(--app-border-default);
+  background: transparent;
+  transition: all var(--app-transition-fast);
+  cursor: pointer;
+  gap: 0;
+}
+
+.userMenuTrigger:hover {
+  border-color: var(--mantine-color-primary-4);
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-mantine-color-scheme='dark'] .userMenuTrigger {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-mantine-color-scheme='dark'] .userMenuTrigger:hover {
+  border-color: var(--mantine-color-primary-5);
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.08);
+}
+
+.userAvatar {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-primary-5) 0%,
+    var(--mantine-color-primary-7) 100%
+  );
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.userDisplayName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--app-text-primary);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+[data-mantine-color-scheme='dark'] .userDisplayName {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.userMenuChevron {
+  color: var(--app-text-muted);
+  margin-left: 2px;
+  flex-shrink: 0;
+  transition: transform var(--app-transition-fast);
+}
+
+/* ─── Dropdown ─────────────────────────────────────────── */
+
+.userMenuDropdown {
+  border: 1px solid var(--app-border-default);
+  overflow: hidden;
+}
+
+[data-mantine-color-scheme='dark'] .userMenuDropdown {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(30, 30, 40, 0.98);
+}
+
+.menuUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.04);
+}
+
+[data-mantine-color-scheme='dark'] .menuUserInfo {
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.08);
+}
+
+.menuUserAvatar {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-primary-5) 0%,
+    var(--mantine-color-primary-7) 100%
+  );
+  color: white;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.menuUserName {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--app-text-primary);
+  line-height: 1.3;
+}
+
+[data-mantine-color-scheme='dark'] .menuUserName {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.menuUserEmail {
+  font-size: 0.75rem;
+  color: var(--app-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+.menuItem {
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  margin: 2px 4px;
+}
+
+.menuItem:hover {
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.08);
+  color: var(--mantine-color-primary-6);
+}
+
+[data-mantine-color-scheme='dark'] .menuItem:hover {
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.12);
+  color: var(--mantine-color-primary-4);
+}
+
+.menuItemLogout {
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  margin: 2px 4px;
+}
+
+.menuItemLogout:hover {
+  background: rgba(220, 53, 69, 0.08);
+}
+
+[data-mantine-color-scheme='dark'] .menuItemLogout:hover {
+  background: rgba(220, 53, 69, 0.12);
+}
+
+/* ─── Mobile Drawer: User Card ────────────────────────── */
+
+.drawerUserCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.06);
+  margin-bottom: 4px;
+}
+
+[data-mantine-color-scheme='dark'] .drawerUserCard {
+  background: rgba(var(--mantine-color-primary-5-rgb), 0.1);
+}
+
+.drawerUserAvatar {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-primary-5) 0%,
+    var(--mantine-color-primary-7) 100%
+  );
+  color: white;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.drawerUserInfo {
+  overflow: hidden;
+}
+
+.drawerUserName {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--app-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-mantine-color-scheme='dark'] .drawerUserName {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.drawerUserEmail {
+  font-size: 0.75rem;
+  color: var(--app-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawerLogoutLink {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  color: var(--mantine-color-primary-6);
+  transition: all var(--app-transition-fast);
+  cursor: pointer;
+}
+
+.drawerLogoutLink:hover {
+  background: rgba(220, 53, 69, 0.08);
+  color: var(--mantine-color-primary-7);
+}
+
+[data-mantine-color-scheme='dark'] .drawerLogoutLink {
+  color: var(--mantine-color-primary-4);
+}
+
+[data-mantine-color-scheme='dark'] .drawerLogoutLink:hover {
+  background: rgba(220, 53, 69, 0.12);
+}
