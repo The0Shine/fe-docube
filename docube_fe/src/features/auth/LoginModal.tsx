@@ -13,11 +13,12 @@ import {
   Modal, Button, Stack, Text, Title, Divider, Group,
   TextInput, PasswordInput, Box, CloseButton, PinInput, Alert, Loader, Center,
 } from '@mantine/core';
-import { IconBrandGoogle, IconArrowLeft, IconMail, IconCheck } from '@tabler/icons-react';
+import { IconArrowLeft, IconMail, IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import { GoogleLogin as GoogleLoginButton } from '@react-oauth/google';
 import { useAuthStore } from '@/stores';
 import { authApi, profileApi } from '@/shared/services';
 
@@ -88,8 +89,23 @@ export function LoginModal({ opened, onClose }: LoginModalProps) {
           <OptionsView
             onEmailLogin={() => setView('EMAIL_LOGIN')}
             onEmailRegister={() => setView('EMAIL_REGISTER')}
-            onGoogleLogin={async () => {
-              notifications.show({ message: 'Google Login chưa được cấu hình.', color: 'orange' });
+            onGoogleSuccess={async (credential: string) => {
+              setLoading(true);
+              setErrorMsg('');
+              try {
+                const resp = await authApi.loginGoogle({ token: credential });
+                setLoginResponse(resp);
+                if (resp.accessTokenType === 'TWO_FA_VERIFY') {
+                  setView('TWO_FA');
+                } else {
+                  await onLoginSuccess();
+                }
+              } catch (e: unknown) {
+                const msg = extractErrorMessage(e, 'Đăng nhập Google thất bại.');
+                setErrorMsg(msg);
+              } finally {
+                setLoading(false);
+              }
             }}
           />
         )}
@@ -304,10 +320,10 @@ function ErrorAlert({ msg }: { msg: string }) {
 interface OptionsViewProps {
   onEmailLogin: () => void;
   onEmailRegister: () => void;
-  onGoogleLogin: () => void;
+  onGoogleSuccess: (credential: string) => void;
 }
 
-function OptionsView({ onEmailLogin, onEmailRegister, onGoogleLogin }: OptionsViewProps) {
+function OptionsView({ onEmailLogin, onEmailRegister, onGoogleSuccess }: OptionsViewProps) {
   return (
     <Stack gap="md" px="md" pt="xs" pb="md">
       <Box mb="md">
@@ -315,17 +331,21 @@ function OptionsView({ onEmailLogin, onEmailRegister, onGoogleLogin }: OptionsVi
         <Text c="dimmed" ta="center" size="sm" mt={4}>Sign in to access study resources</Text>
       </Box>
 
-      <Button
-        variant="default"
-        size="lg"
-        radius="xl"
-        leftSection={<IconBrandGoogle size={20} />}
-        fullWidth
-        onClick={onGoogleLogin}
-        styles={{ root: { height: 50, borderColor: '#e0e0e0' }, inner: { fontSize: 16, fontWeight: 500, color: '#333' } }}
-      >
-        Continue with Google
-      </Button>
+      <Center>
+        <GoogleLoginButton
+          onSuccess={(res) => {
+            if (res.credential) onGoogleSuccess(res.credential);
+          }}
+          onError={() => {
+            notifications.show({ message: 'Đăng nhập Google thất bại.', color: 'red' });
+          }}
+          theme="outline"
+          size="large"
+          text="continue_with"
+          shape="pill"
+          width={400}
+        />
+      </Center>
 
       <Divider label="or continue with email" labelPosition="center" my="xs" />
 

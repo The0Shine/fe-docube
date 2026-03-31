@@ -6,3 +6,5 @@ export type { } from './auth.store';
 
 export { useThemeStore, PRIMARY_COLORS } from './theme.store';
 export type { PrimaryColor } from './theme.store';
+
+export { useDocumentStore } from './document.store';

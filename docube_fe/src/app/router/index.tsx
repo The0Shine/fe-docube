@@ -1,18 +1,24 @@
 /**
  * Router Configuration - Cấu hình routes cho ứng dụng
- * Sử dụng react-router-dom v6+
  */
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AppLayout } from "@/app/layouts";
 import { AuthGuard } from "./AuthGuard";
 
-// Pages
+// Public pages
 import { NotFoundPage } from "@/features/errors";
-import { ProfilePage } from "@/features/profile";
 import { HomePage } from "@/features/home";
-import { TestPage } from "@/features/test";
 import { UniversityPage } from "@/features/university/UniversityPage";
 import { SchoolDetailPage } from "@/features/school-detail/SchoolDetailPage";
+import { DocumentsPage } from "@/features/documents";
+import { DocumentDetailPage } from "@/features/document-detail";
+
+// Private pages
+import { ProfilePage } from "@/features/profile";
+import { UploadDocumentPage } from "@/features/upload";
+import { MyDocumentsPage, EditDocumentPage } from "@/features/my-documents";
+import { BookmarksPage } from "@/features/bookmarks";
+import { PurchasesPage } from "@/features/purchases";
 
 export const router = createBrowserRouter([
   // Public routes
@@ -21,6 +27,8 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: "documents", element: <DocumentsPage /> },
+      { path: "documents/:id", element: <DocumentDetailPage /> },
       { path: "university", element: <UniversityPage /> },
       { path: "university/:slug", element: <SchoolDetailPage /> },
     ],
@@ -36,8 +44,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "profile", element: <ProfilePage /> },
-      { path: "users", element: <HomePage /> },
-      { path: "test", element: <TestPage /> },
+      { path: "upload", element: <UploadDocumentPage /> },
+      { path: "my-documents", element: <MyDocumentsPage /> },
+      { path: "my-documents/:id/edit", element: <EditDocumentPage /> },
+      { path: "bookmarks", element: <BookmarksPage /> },
+      { path: "purchases", element: <PurchasesPage /> },
     ],
   },
 

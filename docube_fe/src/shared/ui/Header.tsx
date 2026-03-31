@@ -15,7 +15,10 @@ import {
   Divider,
   UnstyledButton,
 } from "@mantine/core";
-import { IconLogout, IconChevronDown, IconUser } from "@tabler/icons-react";
+import {
+  IconLogout, IconChevronDown, IconUser, IconUpload,
+  IconFiles, IconBookmark, IconReceipt,
+} from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import classes from "./Header.module.css";
 import { LanguageSwitcher } from "@/shared/ui/LanguageSwitcher";
@@ -75,7 +78,9 @@ export function Header({ onBurgerClick, burgerOpened, hideDrawer }: HeaderProps)
                 <Text className={classes.navLink} onClick={() => navigate("/university")}>
                   {t("nav.university")}
                 </Text>
-                <Text className={classes.navLink}>Tài liệu</Text>
+                <Text className={classes.navLink} onClick={() => navigate("/documents")}>
+                  Tài liệu
+                </Text>
               </Group>
             </Group>
 
@@ -89,6 +94,10 @@ export function Header({ onBurgerClick, burgerOpened, hideDrawer }: HeaderProps)
                     displayName={displayName}
                     email={user?.email ?? ""}
                     onProfile={() => navigate("/private/profile")}
+                    onUpload={() => navigate("/private/upload")}
+                    onMyDocuments={() => navigate("/private/my-documents")}
+                    onBookmarks={() => navigate("/private/bookmarks")}
+                    onPurchases={() => navigate("/private/purchases")}
                     onLogout={handleLogout}
                   />
                 ) : (
@@ -151,32 +160,30 @@ export function Header({ onBurgerClick, burgerOpened, hideDrawer }: HeaderProps)
             ) : null}
 
             {/* Nav links */}
-            <Text
-              className={classes.drawerNavLink}
-              onClick={() => { navigate("/university"); setIsDrawerOpen(false); }}
-            >
+            <Text className={classes.drawerNavLink} onClick={() => { navigate("/university"); setIsDrawerOpen(false); }}>
               {t("nav.university")}
             </Text>
-            <Text className={classes.drawerNavLink}>Tài liệu</Text>
+            <Text className={classes.drawerNavLink} onClick={() => { navigate("/documents"); setIsDrawerOpen(false); }}>
+              Tài liệu
+            </Text>
 
             <Divider my="xs" />
 
             {isAuthenticated ? (
               <>
-                <Text
-                  className={classes.drawerNavLink}
-                  onClick={() => { navigate("/private/profile"); setIsDrawerOpen(false); }}
-                >
-                  <Group gap="xs">
-                    <IconUser size={16} />
-                    Trang cá nhân
-                  </Group>
-                </Text>
+                {[
+                  { icon: <IconUser size={16} />, label: "Trang cá nhân", to: "/private/profile" },
+                  { icon: <IconUpload size={16} />, label: "Đăng tài liệu", to: "/private/upload" },
+                  { icon: <IconFiles size={16} />, label: "Tài liệu của tôi", to: "/private/my-documents" },
+                  { icon: <IconBookmark size={16} />, label: "Đã lưu", to: "/private/bookmarks" },
+                  { icon: <IconReceipt size={16} />, label: "Lịch sử mua", to: "/private/purchases" },
+                ].map(({ icon, label, to }) => (
+                  <Text key={to} className={classes.drawerNavLink} onClick={() => { navigate(to); setIsDrawerOpen(false); }}>
+                    <Group gap="xs">{icon}{label}</Group>
+                  </Text>
+                ))}
                 <Text className={classes.drawerLogoutLink} onClick={handleLogout}>
-                  <Group gap="xs">
-                    <IconLogout size={16} />
-                    Đăng xuất
-                  </Group>
+                  <Group gap="xs"><IconLogout size={16} />Đăng xuất</Group>
                 </Text>
               </>
             ) : (
@@ -199,10 +206,14 @@ interface UserMenuProps {
   displayName: string;
   email: string;
   onProfile: () => void;
+  onUpload: () => void;
+  onMyDocuments: () => void;
+  onBookmarks: () => void;
+  onPurchases: () => void;
   onLogout: () => void;
 }
 
-function UserMenu({ avatarLabel, avatarSrc, displayName, email, onProfile, onLogout }: UserMenuProps) {
+function UserMenu({ avatarLabel, avatarSrc, displayName, email, onProfile, onUpload, onMyDocuments, onBookmarks, onPurchases, onLogout }: UserMenuProps) {
   return (
     <Menu
       width={220}
@@ -240,22 +251,25 @@ function UserMenu({ avatarLabel, avatarSrc, displayName, email, onProfile, onLog
 
         <Menu.Divider />
 
-        <Menu.Item
-          leftSection={<IconUser size={15} />}
-          onClick={onProfile}
-          className={classes.menuItem}
-        >
+        <Menu.Item leftSection={<IconUser size={15} />} onClick={onProfile} className={classes.menuItem}>
           Trang cá nhân
+        </Menu.Item>
+        <Menu.Item leftSection={<IconUpload size={15} />} onClick={onUpload} className={classes.menuItem}>
+          Đăng tài liệu
+        </Menu.Item>
+        <Menu.Item leftSection={<IconFiles size={15} />} onClick={onMyDocuments} className={classes.menuItem}>
+          Tài liệu của tôi
+        </Menu.Item>
+        <Menu.Item leftSection={<IconBookmark size={15} />} onClick={onBookmarks} className={classes.menuItem}>
+          Đã lưu
+        </Menu.Item>
+        <Menu.Item leftSection={<IconReceipt size={15} />} onClick={onPurchases} className={classes.menuItem}>
+          Lịch sử mua
         </Menu.Item>
 
         <Menu.Divider />
 
-        <Menu.Item
-          leftSection={<IconLogout size={15} />}
-          onClick={onLogout}
-          className={classes.menuItemLogout}
-          color="red"
-        >
+        <Menu.Item leftSection={<IconLogout size={15} />} onClick={onLogout} className={classes.menuItemLogout} color="red">
           Đăng xuất
         </Menu.Item>
       </Menu.Dropdown>
